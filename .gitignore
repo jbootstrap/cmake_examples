@@ -1,0 +1,6 @@
+cmake_*
+generated
+Testing
+netbeans
+*_wrap.cxx
+*.dll
