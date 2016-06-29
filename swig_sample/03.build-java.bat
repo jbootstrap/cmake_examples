@@ -15,7 +15,6 @@ cmake -G "Visual Studio 12 2013" -DCMAKE_CXX_FLAGS_RELEASE="/MT" -DCMAKE_CXX_FLA
                                  ..\java
 cmake --build . --config Release
 
-copy %SCRIPT_CURRENT_DIR%mydll.dll .
 ctest -C Release -V
 
 ENDLOCAL

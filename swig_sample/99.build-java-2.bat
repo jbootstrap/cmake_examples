@@ -8,8 +8,7 @@ for /f "delims=\ tokens=*" %%z in ("%SCRIPT%") do (
 )
 
 
-rem set PATH=%PATH%;C:\mingw-w64\i686-5.3.0-posix-dwarf-rt_v4-rev0\mingw32\bin
-set PATH=C:\Program Files (x86)\CodeBlocks\MinGW\bin;%PATH%
+set PATH=%PATH%;C:\mingw-w64\i686-5.3.0-posix-dwarf-rt_v4-rev0\mingw32\bin
 
 cd /d %SCRIPT_CURRENT_DIR%
 rmdir /s /q cmake_extra

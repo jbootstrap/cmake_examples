@@ -28,6 +28,7 @@ public class SwigTest1 {
         String path = new File(".").getAbsoluteFile().getParent();
         System.out.println(path);
         
+    	System.out.println(System.getProperty("sun.arch.data.model"));
         //ClassPathLibrary.LoadLibrary("swigdll");
         //System.out.println("java.library.path="+System.getProperty("java.library.path"));
         //System.setProperty("java.library.path", "C:\\Users\\root\\Dropbox\\SwigTest1\\build\\classes\\win32-x86");

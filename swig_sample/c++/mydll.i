@@ -21,7 +21,14 @@
 
 %pragma(java) jniclasscode=%{
     static {
-        System.loadLibrary("mydll");
+        //System.loadLibrary("mydll");
+        try {
+            if(System.getProperty("sun.arch.data.model")=="32")
+                swigtest1.NativeUtils.loadLibraryFromJar("/native/x86/mydll.dll");
+            else
+                swigtest1.NativeUtils.loadLibraryFromJar("/native/x64/mydll.dll");
+        }
+        catch(java.lang.Exception ex) { throw new java.lang.RuntimeException(ex); }
     }
 %}
 

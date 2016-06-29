@@ -15,7 +15,7 @@ set(CMAKE_JAVA_COMPILE_FLAGS "-source" "1.7" "-target" "1.7" "-encoding" "utf-8"
 
 add_jar(HelloWorld
         ENTRY_POINT swigtest1.SwigTest1
-        SOURCES swigtest1/SwigTest1.java)
+        SOURCES swigtest1/SwigTest1.java native/x86/mydll.dll native/x64/mydll.dll)
 
 get_target_property(_jarFile HelloWorld JAR_FILE)
 get_target_property(_classDir HelloWorld CLASSDIR)
