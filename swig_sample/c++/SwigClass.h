@@ -49,6 +49,8 @@ public:
 		result.push_back(22);
 		return result;
 	}
+	std::wstring getUserEnvVar(const std::wstring &name);
+	void setUserEnvVar(const std::wstring &name, const std::wstring &value);
 };
 
 void setString(const std::wstring &s);

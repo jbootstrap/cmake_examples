@@ -43,7 +43,19 @@ public class NativeUtils {
      */
     private NativeUtils() {
     }
- 
+
+    public static void loadLibrary(String name) {
+        try {
+            if("32".equals(System.getProperty("sun.arch.data.model")))
+                loadLibraryFromJar("/native/x86/"+name+".dll");
+            else
+                loadLibraryFromJar("/native/x64/"+name+".dll");
+        }
+        catch(Exception ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
     /**
      * Loads library from current JAR archive
      * 

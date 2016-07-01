@@ -8,9 +8,9 @@ for /f "delims=\ tokens=*" %%z in ("%SCRIPT%") do (
 SETLOCAL
 
 cd /d %SCRIPT_CURRENT_DIR%
-rmdir /s /q cmake_vc2013
-mkdir cmake_vc2013
-cd cmake_vc2013
+rmdir /s /q cmake_java
+mkdir cmake_java
+cd cmake_java
 cmake -G "Visual Studio 12 2013" -DCMAKE_CXX_FLAGS_RELEASE="/MT" -DCMAKE_CXX_FLAGS_DEBUG="/MTd" ^
                                  ..\java
 cmake --build . --config Release

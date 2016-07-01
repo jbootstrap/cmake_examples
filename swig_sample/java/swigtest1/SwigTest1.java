@@ -35,6 +35,10 @@ public class SwigTest1 {
         //System.loadLibrary("swigdllJNI");
         //System.load("C:\\Users\\root\\Dropbox\\SwigTest1\\build\\classes\\win32-x86\\swigdllJNI.dll");
         SwigClass sc = new SwigClass();
+        
+        System.out.println("PATH="+sc.getUserEnvVar("PATH"));
+        sc.setUserEnvVar("MYVAR", "ABC;XYZ");
+        
         int x = sc.add2(11, 22);
         System.out.println(x);
         String y = sc.getString();
