@@ -1,12 +1,5 @@
 /* -----------------------------------------------------------------------------
- * std_string.i
- *
- * Typemaps for std::string and const std::string&
- * These are mapped to a Java String and are passed around by value.
- *
- * To use non-const std::string references use the following %apply.  Note 
- * that they are passed by value.
- * %apply const std::string & {std::string &};
+ * std_string_as_array.i
  * ----------------------------------------------------------------------------- */
 
 %{
@@ -28,17 +21,17 @@ class string;
 
 %typemap(in) string
 %{ if(!$input) {
-     SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+     SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null byte array");
      return $null;
    }
-   jbyte* $1_pstr = jenv->GetByteArrayElements($input, 0);
-   if (!$1_pstr) return $null;
+   jbyte* $1_elems = jenv->GetByteArrayElements($input, 0);
+   if (!$1_elems) return $null;
    { int nSize = jenv->GetArrayLength($input);
      for (int i=0; i<nSize; i++) {
-       $1.push_back($1_pstr[i]);
+       $1.push_back($1_elems[i]);
      }
    }
-   jenv->ReleaseByteArrayElements($input, $1_pstr, 0); %}
+   jenv->ReleaseByteArrayElements($input, $1_elems, 0); %}
 
 %typemap(out) string 
 %{ $result = jenv->NewByteArray((int)$1.size());
@@ -63,19 +56,19 @@ class string;
 
 %typemap(in) const string &
 %{ if(!$input) {
-     SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+     SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null byte array");
      return $null;
    }
-   jbyte* $1_pstr = jenv->GetByteArrayElements($input, 0);
-   if (!$1_pstr) return $null;
+   jbyte* $1_elems = jenv->GetByteArrayElements($input, 0);
+   if (!$1_elems) return $null;
    $*1_ltype $1_str;
    { int nSize = jenv->GetArrayLength($input);
      for (int i=0; i<nSize; i++) {
-       $1_str.push_back($1_pstr[i]);
+       $1_str.push_back($1_elems[i]);
      }
    }
    $1 = &$1_str;
-   jenv->ReleaseByteArrayElements($input, $1_pstr, 0); %}
+   jenv->ReleaseByteArrayElements($input, $1_elems, 0); %}
 
 %typemap(out) const string & 
 %{ $result = jenv->NewByteArray((int)(*$1).size());
