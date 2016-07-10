@@ -18,7 +18,7 @@ SwigClass::~SwigClass()
 	printf("SwigClass::~SwigClass(): %d\n", s_class_count);
 }
 
-void SwigClass::setBytes(const std::string &bytes)
+void SwigClass::setBytes(const std::string &bytes, std::string bytes2)
 {
 }
 

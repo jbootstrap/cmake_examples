@@ -33,16 +33,17 @@ class string;
    }
    jbyte* $1_pstr = jenv->GetByteArrayElements($input, 0);
    if (!$1_pstr) return $null;
-   int nSize = jenv->GetArrayLength($input);
-   for (int i=0; i<nSize; i++) {
-     $1.push_back($1_pstr[i]);
+   { int nSize = jenv->GetArrayLength($input);
+     for (int i=0; i<nSize; i++) {
+       $1.push_back($1_pstr[i]);
+     }
    }
    jenv->ReleaseByteArrayElements($input, $1_pstr, 0); %}
 
 %typemap(out) string 
 %{ $result = jenv->NewByteArray((int)$1.size());
    jbyte *bytes = jenv->GetByteArrayElements($result, 0);
-   for(int i=0; i<(int)$1.size; i++) {
+   for(int i=0; i<(int)$1.size(); i++) {
      bytes[i] = $1[i];
    }
    jenv->ReleaseByteArrayElements($result, bytes, 0); %}
@@ -68,17 +69,18 @@ class string;
    jbyte* $1_pstr = jenv->GetByteArrayElements($input, 0);
    if (!$1_pstr) return $null;
    $*1_ltype $1_str;
-   int nSize = jenv->GetArrayLength($input);
-   for (int i=0; i<nSize; i++) {
-     $1_str.push_back($1_pstr[i]);
+   { int nSize = jenv->GetArrayLength($input);
+     for (int i=0; i<nSize; i++) {
+       $1_str.push_back($1_pstr[i]);
+     }
    }
    $1 = &$1_str;
    jenv->ReleaseByteArrayElements($input, $1_pstr, 0); %}
 
 %typemap(out) const string & 
-%{ $result = jenv->NewByteArray((int)$1.size());
+%{ $result = jenv->NewByteArray((int)(*$1).size());
    jbyte *bytes = jenv->GetByteArrayElements($result, 0);
-   for(int i=0; i<(int)$1->size; i++) {
+   for(int i=0; i<(int)(*$1).size(); i++) {
      bytes[i] = (*$1)[i];
    }
    jenv->ReleaseByteArrayElements($result, bytes, 0); %}
