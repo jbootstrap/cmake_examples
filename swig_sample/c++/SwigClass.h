@@ -35,6 +35,10 @@ class SwigClass
 public:
 	SwigClass();
 	virtual ~SwigClass();
+	void setBytes(const std::string &bytes);
+	void setBytes2(std::string bytes);
+	std::string getBytes();
+	const std::string &getBytes2();
 	int add2(int a, int b);
 	std::wstring getString();
 	static int getClassCount();

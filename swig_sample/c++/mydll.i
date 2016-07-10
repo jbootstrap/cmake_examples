@@ -2,6 +2,7 @@
 %module mydll
 
 %include "std_wstring.i"
+%include "std_string_as_array.i"
 
 %{
 #include "ResultClass.h"
@@ -9,7 +10,9 @@
 %}
 
 %include "vector.i"
-%template(InteVector) std::vector<int>;
+%template(ByteVector) std::vector<signed char>;
+%template(CharVector) std::vector<char>;
+%template(IntVector) std::vector<int>;
 //%template(DoubleVector) std::vector<double>;
 //%template(ByteVector) std::vector<signed char>;
 %template(StringVector) std::vector<std::wstring>;

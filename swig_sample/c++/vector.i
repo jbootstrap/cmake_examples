@@ -52,7 +52,8 @@ namespace std {
 AUTOBOX(double, Double)
 AUTOBOX(float, Float)
 AUTOBOX(boolean, Boolean)
-AUTOBOX(signed char, Byte)
+AUTOBOX(char, byte)
+AUTOBOX(signed char, byte)
 AUTOBOX(short, Short)
 AUTOBOX(int, Integer)
 AUTOBOX(long, Long)
@@ -65,6 +66,7 @@ AUTOBOX(SWIGTYPE, $typemap(jstype,$1_basetype))
 %typemap(jstype) std::vector set "$typemap(autobox,$1_basetype)"
 %typemap(jstype) std::vector &VECTOR_VALUE_IN "$typemap(autobox,$1_basetype)"
 %typemap(javacode) std::vector %{
+  /*
   public $javaclassname(java.util.Collection<$typemap(autobox,$1_basetype::value_type)> e) {
     //this.reserve(e.size());
     for($typemap(autobox,$1_basetype::value_type) value: e) {
@@ -72,11 +74,19 @@ AUTOBOX(SWIGTYPE, $typemap(jstype,$1_basetype))
       this.add(value);
     }
   }
-  public java.util.List<$typemap(autobox,$1_basetype::value_type)> toList() {
-    java.util.List<$typemap(autobox,$1_basetype::value_type)> result = new java.util.ArrayList<>();
+  */
+  public $javaclassname($typemap(autobox,$1_basetype::value_type)[] e) {
+    //this.reserve(e.size());
+    for($typemap(autobox,$1_basetype::value_type) value: e) {
+      //this.push_back(value);
+      this.add(value);
+    }
+  }
+  public $typemap(autobox,$1_basetype::value_type)[] toArray() {
+    $typemap(autobox,$1_basetype::value_type)[] result = new $typemap(autobox,$1_basetype::value_type)[this.size()];
     for(int i=0; i<this.size(); i++)
     {
-        result.add(this.get(i));
+        result[i] = this.get(i);
     }
     return result;
   }

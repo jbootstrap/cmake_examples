@@ -9,11 +9,11 @@ SETLOCAL
 
 cd /d %SCRIPT_CURRENT_DIR%
 cd c++
-rmdir /s /q cmake_vc2013
-mkdir cmake_vc2013
-cd cmake_vc2013
+rmdir /s /q cmake_vc2015
+mkdir cmake_vc2015
+cd cmake_vc2015
 
-cmake -G "Visual Studio 12 2013" -DCMAKE_CXX_FLAGS_RELEASE="/MT" -DCMAKE_CXX_FLAGS_DEBUG="/MTd" ^
+cmake -G "Visual Studio 14 2015" -DCMAKE_CXX_FLAGS_RELEASE="/MT" -DCMAKE_CXX_FLAGS_DEBUG="/MTd" ^
                                  ..
 cmake --build . --config Release
 

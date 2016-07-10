@@ -18,6 +18,24 @@ SwigClass::~SwigClass()
 	printf("SwigClass::~SwigClass(): %d\n", s_class_count);
 }
 
+void SwigClass::setBytes(const std::string &bytes)
+{
+}
+
+void SwigClass::setBytes2(std::string bytes)
+{
+}
+
+std::string SwigClass::getBytes()
+{
+	return "abc";
+}
+
+const std::string &SwigClass::getBytes2()
+{
+	return "abc";
+}
+
 int SwigClass::add2(int a, int b)
 {
 	return a + b;
