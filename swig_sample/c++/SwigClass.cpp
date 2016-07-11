@@ -18,11 +18,23 @@ SwigClass::~SwigClass()
 	printf("SwigClass::~SwigClass(): %d\n", s_class_count);
 }
 
-void SwigClass::setBytes(const std::string &bytes, std::string bytes2)
+void SwigClass::setBytes(std::string bytes, std::string bytes2)
 {
+	printf("SwigClass::setBytes(1)\n");
+	for (int i = 0; i < bytes.size(); i++)
+	{
+		printf("SwigClass::setBytes(): bytes[%d]=0x%02x\n", i, bytes[i]);
+	}
+	printf("SwigClass::setBytes(): bytes=[%s]\n", bytes.c_str());
+	for (int i = 0; i < bytes2.size(); i++)
+	{
+		printf("SwigClass::setBytes(): bytes2[%d]=0x%02x\n", i, bytes2[i]);
+	}
+	printf("SwigClass::setBytes(): bytes2=[%s]\n", bytes2.c_str());
+	printf("SwigClass::setBytes(end)\n");
 }
 
-void SwigClass::setBytes2(std::string bytes)
+void SwigClass::setBytes2(std::vector<char> bytes)
 {
 }
 

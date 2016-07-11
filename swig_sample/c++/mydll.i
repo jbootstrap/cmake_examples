@@ -3,6 +3,7 @@
 
 %include "std_wstring.i"
 %include "std_string_as_array.i"
+%include "char_vector_as_array.i"
 
 %{
 #include "ResultClass.h"
@@ -10,14 +11,12 @@
 %}
 
 %include "vector.i"
-%template(ByteVector) std::vector<signed char>;
-%template(CharVector) std::vector<char>;
-%template(IntVector) std::vector<int>;
+//%template(ByteVector) std::vector<signed char>;
+//%template(CharVector) std::vector<char>;
+//%template(IntVector) std::vector<int>;
 //%template(DoubleVector) std::vector<double>;
 //%template(ByteVector) std::vector<signed char>;
 %template(StringVector) std::vector<std::wstring>;
-
-
 
 %include "ResultClass.h"
 %include "SwigClass.h"

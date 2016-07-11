@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import swigtest1.generated.InteVector;
+////import swigtest1.generated.InteVector;
 import swigtest1.generated.SwigClass;
 //import swigtest1.generated.swigdll;
 
@@ -36,6 +36,10 @@ public class SwigTest1 {
         //System.load("C:\\Users\\root\\Dropbox\\SwigTest1\\build\\classes\\win32-x86\\swigdllJNI.dll");
         SwigClass sc = new SwigClass();
         
+        sc.setBytes("abc\0xyz".getBytes("sjis"), "漢字".getBytes("sjis"));
+        byte[] bytes = sc.getBytes();
+        System.out.println("bytes(sjis)="+new String(bytes, "sjis"));
+        
         System.out.println("PATH="+sc.getUserEnvVar("PATH"));
         sc.setUserEnvVar("MYVAR", "ABC;XYZ");
         
@@ -44,6 +48,7 @@ public class SwigTest1 {
         String y = sc.getString();
         System.out.println(y);
         //swigdll.setString("abc漢字");
+        /*
         InteVector vec = sc.getIntVector();
         for(int i=0; i<vec.size(); i++)
         {
@@ -51,6 +56,7 @@ public class SwigTest1 {
         }
         List<Integer> list = vec.toList();
         System.out.println(list);
+        */
         //System.out.println(swigdll.getClassCount());
         sc.delete();
         sc = null;

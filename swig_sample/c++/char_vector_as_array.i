@@ -1,23 +1,23 @@
 /* -----------------------------------------------------------------------------
- * std_string_as_array.i
+ * char_array_as_array.i
  * ----------------------------------------------------------------------------- */
 
 %{
-#include <string>
+#include "SwigClass.h"
 %}
 
 namespace std {
 
-class string;
+class char_vector;
 
-// std::string
-%typemap(jni) string "jbyteArray"
-%typemap(jtype) string "byte[]"
-%typemap(jstype) string "byte[]"
-%typemap(javain) string "$javainput"
-%typemap(javaout) string { return $jnicall; }
+// std::char_vector
+%typemap(jni) char_vector "jbyteArray"
+%typemap(jtype) char_vector "byte[]"
+%typemap(jstype) char_vector "byte[]"
+%typemap(javain) char_vector "$javainput"
+%typemap(javaout) char_vector { return $jnicall; }
 
-%typemap(in) string
+%typemap(in) char_vector
 %{ if(!$input) {
      SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null byte array");
      return $null;
@@ -29,7 +29,7 @@ class string;
    for (int i=0; i<$1_size; i++) $1.push_back($1_elems[i]);
    jenv->ReleaseByteArrayElements($input, $1_elems, 0); %}
 
-%typemap(out) string 
+%typemap(out) char_vector 
 %{ $result = jenv->NewByteArray((int)$1.size());
    jbyte *bytes = jenv->GetByteArrayElements($result, 0);
    for(int i=0; i<(int)$1.size(); i++) bytes[i] = $1[i];

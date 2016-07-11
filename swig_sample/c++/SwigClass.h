@@ -1,5 +1,6 @@
 #pragma once
 
+#include <list>
 #include <string>
 #include <vector>
 #include "ResultClass.h"
@@ -30,15 +31,19 @@ public:
 #endif
 };
 
+namespace std {
+	typedef vector<char> char_vector;
+}
+
 class SwigClass
 {
 public:
 	SwigClass();
 	virtual ~SwigClass();
-	void setBytes(const std::string &bytes, std::string bytes2);
-	void setBytes2(std::string bytes);
+	void setBytes(std::string bytes, std::string bytes2);
+	void setBytes2(std::char_vector bytes);
 	std::string getBytes();
-	const std::string &getBytes2();
+	std::char_vector getBytes2();
 	int add2(int a, int b);
 	std::wstring getString();
 	static int getClassCount();

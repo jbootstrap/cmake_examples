@@ -11,7 +11,7 @@ cd /d %SCRIPT_CURRENT_DIR%
 rmdir /s /q cmake_java
 mkdir cmake_java
 cd cmake_java
-cmake -G "Visual Studio 12 2013" -DCMAKE_CXX_FLAGS_RELEASE="/MT" -DCMAKE_CXX_FLAGS_DEBUG="/MTd" ^
+cmake -G "Visual Studio 14 2015" -DCMAKE_CXX_FLAGS_RELEASE="/MT" -DCMAKE_CXX_FLAGS_DEBUG="/MTd" ^
                                  ..\java
 cmake --build . --config Release
 
