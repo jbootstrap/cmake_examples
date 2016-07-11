@@ -3,9 +3,10 @@
 
 %include "std_wstring.i"
 %include "std_string_as_array.i"
-%include "char_vector_as_array.i"
+%include "vector_bytearray.h"
 
 %{
+//#include "vector_bytearray.h"
 #include "ResultClass.h"
 #include "SwigClass.h"
 %}

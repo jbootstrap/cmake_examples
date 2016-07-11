@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Set;
 ////import swigtest1.generated.InteVector;
 import swigtest1.generated.SwigClass;
+import swigtest1.generated.mydll;
 //import swigtest1.generated.swigdll;
 
 /**
@@ -47,7 +48,7 @@ public class SwigTest1 {
         System.out.println(x);
         String y = sc.getString();
         System.out.println(y);
-        //swigdll.setString("abc漢字");
+        mydll.setString("abc漢字");
         /*
         InteVector vec = sc.getIntVector();
         for(int i=0; i<vec.size(); i++)

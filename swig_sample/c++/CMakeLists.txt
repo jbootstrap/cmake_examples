@@ -12,6 +12,6 @@ include_directories("C:/Program Files (x86)/Java/jdk1.8.0_92/include"
 
 ## BUILD
 
-file(GLOB TARGET_SOURCES *(.c|*.h|.cpp|.hpp|*.cxx|*.hxx))
+file(GLOB TARGET_SOURCES *(.c|*.h|.cc|*.hh|.cpp|.hpp|*.cxx|*.hxx))
 add_library(${TARGET_NAME} SHARED ${TARGET_SOURCES} ${GENERATED_SOURCES})
 set_target_properties(${TARGET_NAME} PROPERTIES DEBUG_POSTFIX _d)

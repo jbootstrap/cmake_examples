@@ -31,9 +31,10 @@ public:
 #endif
 };
 
-namespace std {
-	typedef vector<char> char_vector;
-}
+#include "vector_bytearray.h"
+//namespace std {
+//	typedef vector<char> byte_vector;
+//}
 
 class SwigClass
 {
@@ -41,9 +42,9 @@ public:
 	SwigClass();
 	virtual ~SwigClass();
 	void setBytes(std::string bytes, std::string bytes2);
-	void setBytes2(std::char_vector bytes);
+	void setBytes2(std::byte_vector bytes);
 	std::string getBytes();
-	std::char_vector getBytes2();
+	std::byte_vector getBytes2();
 	int add2(int a, int b);
 	std::wstring getString();
 	static int getClassCount();
