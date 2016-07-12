@@ -1,8 +1,7 @@
 #include <opencv2/opencv.hpp>
 #include <opencv2/core/core.hpp>
-#include <stdio.h>
 #include <windows.h>
-#include <atlimage.h>
+//#include <stdio.h>
 
 #include "cvwin.hpp"
 
@@ -12,9 +11,11 @@ int main(void)
 
 	HICON hIcon = ExtractIcon(
 		hInstance,                   // インスタンスのハンドル
-		L"C:\\Windows\\notepad.exe",  // ファイル名
+		L"C:\\Windows\\notepad.exe", // ファイル名
 		0                            // アイコンのインデックス番号
 	);
+
+#if 0x1
 	printf("hIcon=0x%08x\n", (unsigned int)hIcon);
 
 	std::vector<uchar> png = cvwin::IconToPng(hIcon);
@@ -27,6 +28,8 @@ int main(void)
 	fclose(fp);
 
 	//cv::Mat img(cv::Size(width, height), CV_8UC3);
+#endif
+
 	cv::Mat img = cvwin::IconToMat(hIcon);
 
 	DestroyIcon(hIcon);

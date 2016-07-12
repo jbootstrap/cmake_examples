@@ -5,26 +5,7 @@
 #include <vector>
 #include <windows.h>
 #include <atlimage.h>
-
-HBITMAP cvwin::IconToBitmap(HICON hIcon)
-{
-	BITMAP bm;
-	ICONINFO iconInfo;
-	GetIconInfo(hIcon, &iconInfo);
-	GetObject(iconInfo.hbmColor, sizeof(BITMAP), &bm);
-	HDC hDC = GetDC(NULL);
-	HDC hMemDC = CreateCompatibleDC(hDC);
-	HBITMAP hMemBmp = CreateCompatibleBitmap(hDC, bm.bmWidth, bm.bmHeight);
-	HBITMAP hResultBmp = NULL;
-	HGDIOBJ hOrgBMP = SelectObject(hMemDC, hMemBmp);
-	DrawIconEx(hMemDC, 0, 0, hIcon, bm.bmWidth, bm.bmHeight, 0, NULL, DI_NORMAL);
-	hResultBmp = hMemBmp;
-	hMemBmp = NULL;
-	SelectObject(hMemDC, hOrgBMP);
-	DeleteDC(hMemDC);
-	ReleaseDC(NULL, hDC);
-	return hResultBmp;
-}
+#include <gdiplus.h>
 
 std::vector<uchar> cvwin::BitmapToPng(HBITMAP hBitmap)
 {
@@ -71,25 +52,92 @@ std::vector<uchar> cvwin::BitmapToPng(HBITMAP hBitmap)
 	return png_data;
 }
 
-cv::Mat cvwin::BitmapToMat(HBITMAP hBitmap)
+static int GetEncoderClsid(const WCHAR* format, CLSID* pClsid)
 {
-	std::vector<uchar> png = cvwin::BitmapToPng(hBitmap);
-	cv::Mat mat = cv::imdecode(cv::Mat(png), 1);
-	return mat;
+	UINT  num = 0, size = 0;
+	Gdiplus::GetImageEncodersSize(&num, &size);
+	if (size == 0) return -1;
+	Gdiplus::ImageCodecInfo* pImageCodecInfo = (Gdiplus::ImageCodecInfo*)malloc(size);
+	if (pImageCodecInfo == NULL) return -1;
+	Gdiplus::GetImageEncoders(num, size, pImageCodecInfo);
+	for (UINT j = 0; j < num; ++j)
+	{
+		if (wcscmp(pImageCodecInfo[j].MimeType, format) == 0)
+		{
+			*pClsid = pImageCodecInfo[j].Clsid;
+			free(pImageCodecInfo);
+			return j;
+		}
+	}
+	free(pImageCodecInfo);
+	return -1;
+}
+
+static std::vector<uchar> cvwin_IconToPng_Body(HICON hIcon)
+{
+	std::vector<uchar> png_data;
+	ICONINFO ii = { 0 };
+	GetIconInfo(hIcon, &ii);
+	Gdiplus::Bitmap bmpIcon(ii.hbmColor, NULL);
+	Gdiplus::Rect rectBounds(0, 0, bmpIcon.GetWidth(), bmpIcon.GetHeight());
+	Gdiplus::BitmapData bmData;
+	bmpIcon.LockBits(&rectBounds, Gdiplus::ImageLockModeRead, bmpIcon.GetPixelFormat(), &bmData);
+	Gdiplus::Bitmap bmp(bmData.Width, bmData.Height, bmData.Stride, PixelFormat32bppARGB, (BYTE*)bmData.Scan0);
+	bmpIcon.UnlockBits(&bmData);
+	IStream* pIStream = NULL;
+	if (CreateStreamOnHGlobal(NULL, TRUE, (LPSTREAM*)&pIStream) != S_OK)
+	{
+		return png_data;
+	}
+	CLSID clsid;
+	if (GetEncoderClsid(L"image/png", &clsid) < 0)
+	{
+		pIStream->Release();
+		return png_data;
+	}
+	bmp.Save(pIStream, &clsid, NULL);
+	ULARGE_INTEGER ulnSize;
+	LARGE_INTEGER lnOffset;
+	lnOffset.QuadPart = 0;
+	if (pIStream->Seek(lnOffset, STREAM_SEEK_END, &ulnSize) != S_OK)
+	{
+		pIStream->Release();
+		return png_data;
+	}
+	if (pIStream->Seek(lnOffset, STREAM_SEEK_SET, NULL) != S_OK)
+	{
+		pIStream->Release();
+		return png_data;
+	}
+	png_data.resize((unsigned int)ulnSize.QuadPart);
+	ULONG ulBytesRead;
+	if (pIStream->Read(&png_data[0], (ULONG)ulnSize.QuadPart, &ulBytesRead) != S_OK)
+	{
+		pIStream->Release();
+		return png_data;
+	}
+	pIStream->Release();
+	return png_data;
 }
 
 std::vector<uchar> cvwin::IconToPng(HICON hIcon)
 {
-	HBITMAP hBitmap = cvwin::IconToBitmap(hIcon);
-	std::vector<uchar> png = cvwin::BitmapToPng(hBitmap);
-	DeleteObject(hBitmap);
-	return png;
+	Gdiplus::GdiplusStartupInput gdiplusStartupInput;
+	ULONG_PTR gdiplusToken;
+	Gdiplus::GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
+	std::vector<uchar> png_data = cvwin_IconToPng_Body(hIcon);
+	Gdiplus::GdiplusShutdown(gdiplusToken);
+	return png_data;
+}
+
+cv::Mat cvwin::BitmapToMat(HBITMAP hBitmap)
+{
+	std::vector<uchar> png_data = cvwin::BitmapToPng(hBitmap);
+	return cv::imdecode(cv::Mat(png_data), 1);
 }
 
 cv::Mat cvwin::IconToMat(HICON hIcon)
 {
-	HBITMAP hBitmap = cvwin::IconToBitmap(hIcon);
-	cv::Mat mat = cvwin::BitmapToMat(hBitmap);
-	DeleteObject(hBitmap);
-	return mat;
+	std::vector<uchar> png_data = cvwin::IconToPng(hIcon);
+	return cv::imdecode(cv::Mat(png_data), 1);
 }

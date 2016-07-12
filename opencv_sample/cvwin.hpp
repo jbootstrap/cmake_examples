@@ -7,8 +7,6 @@
 
 namespace cvwin {
 
-	HBITMAP IconToBitmap(HICON hIcon);
-
 	std::vector<uchar> BitmapToPng(HBITMAP hBitmap);
 	cv::Mat BitmapToMat(HBITMAP hBitmap);
 
