@@ -24,14 +24,15 @@ HBITMAP cvwin::IconToBitmap(HICON hIcon)
 	SelectObject(hMemDC, hOrgBMP);
 	DeleteDC(hMemDC);
 	ReleaseDC(NULL, hDC);
-	DestroyIcon(hIcon);
 	return hResultBmp;
 }
 
 std::vector<uchar> cvwin::IconToPng(HICON hIcon)
 {
 	HBITMAP hBitmap = cvwin::IconToBitmap(hIcon);
-	return cvwin::BitmapToPng(hBitmap);
+	std::vector<uchar> png = cvwin::BitmapToPng(hBitmap);
+	DeleteObject(hBitmap);
+	return png;
 }
 
 cv::Mat cvwin::IconToMat(HICON hIcon)
@@ -59,6 +60,7 @@ std::vector<uchar> cvwin::BitmapToPng(HBITMAP hBitmap)
 		DeleteObject(hBitmap);
 		return buff;
 	}
+	cimg.Detach();
 	DeleteObject(hBitmap);
 	ULARGE_INTEGER ulnSize;
 	LARGE_INTEGER lnOffset;
@@ -73,9 +75,9 @@ std::vector<uchar> cvwin::BitmapToPng(HBITMAP hBitmap)
 		pIStream->Release();
 		return buff;
 	}
-	buff.resize(ulnSize.QuadPart);
+	buff.resize((unsigned int)ulnSize.QuadPart);
 	ULONG ulBytesRead;
-	if (pIStream->Read(&buff[0], ulnSize.QuadPart, &ulBytesRead) != S_OK)
+	if (pIStream->Read(&buff[0], (ULONG)ulnSize.QuadPart, &ulBytesRead) != S_OK)
 	{
 		pIStream->Release();
 		return buff;

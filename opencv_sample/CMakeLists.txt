@@ -1,7 +1,7 @@
 # CMakeの最低バージョンを記述
 cmake_minimum_required(VERSION 2.8)
 # ソリューション名を指定
-project(SampleSolution)
+project(opencv_sample)
 
 ## Unicode
 add_definitions(-DUNICODE -D_UNICODE)

@@ -1,11 +1,8 @@
 #include <opencv2/opencv.hpp>
-#include <opencv2/highgui/highgui.hpp>
 #include <opencv2/core/core.hpp>
 #include <stdio.h>
 #include <windows.h>
 #include <atlimage.h>
-#include <iostream>
-#include <fstream>
 
 #include "cvwin.h"
 using namespace cvwin;
@@ -19,7 +16,16 @@ int main(void)
 		L"C:\\Windows\\notepad.exe",  // ファイル名
 		0                            // アイコンのインデックス番号
 	);
-	printf("hIcon=0x%08x\n", hIcon);
+	printf("hIcon=0x%08x\n", (unsigned int)hIcon);
+
+	std::vector<uchar> png = cvwin::IconToPng(hIcon);
+	printf("png.size()=%u\n", png.size());
+	std::string str;
+	str.assign(png.begin(), png.end());
+	printf("str.size()=%u\n", str.size());
+	FILE *fp = fopen("a.png", "wb");
+	fwrite(str.c_str(), str.size(), 1, fp);
+	fclose(fp);
 
 	//cv::Mat img(cv::Size(width, height), CV_8UC3);
 	cv::Mat img = cvwin::IconToMat(hIcon);
