@@ -7,12 +7,13 @@ project(opencv_sample)
 add_definitions(-DUNICODE -D_UNICODE)
 
 ##
-set(CMAKE_CXX_FLAGS_RELEASE "/MT /wd4819")
-set(CMAKE_CXX_FLAGS_DEBUG   "/MT /wd4819")
+set(CMAKE_CXX_FLAGS_RELEASE "/MT /Z7 /wd4819")
+set(CMAKE_CXX_FLAGS_DEBUG   "/MT /Z7 /wd4819")
 
 # 実行ファイル名とソース指定
 add_executable(main1 main1.cpp)
 add_executable(main2 main2.cpp cvwin.cpp cvwin.hpp)
+add_executable(main3 main3.cpp cvwin.cpp cvwin.hpp)
 
 #
 #set(OpenCV_STATIC ON)
@@ -27,4 +28,5 @@ include_directories(${OpenCV_INCLUDE_DIRS})
 # リンクするライブラリ指定
 target_link_libraries(main1 ${OpenCV_LIBS})
 target_link_libraries(main2 ${OpenCV_LIBS})
+target_link_libraries(main3 ${OpenCV_LIBS})
 endif(OpenCV_FOUND)

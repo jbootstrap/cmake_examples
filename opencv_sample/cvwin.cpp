@@ -73,7 +73,7 @@ static int GetEncoderClsid(const WCHAR* format, CLSID* pClsid)
 	return -1;
 }
 
-static std::vector<uchar> cvwin_IconToPng_Body(HICON hIcon)
+static std::vector<uchar> IconToImageFormat(HICON hIcon, const WCHAR* format)
 {
 	std::vector<uchar> png_data;
 	ICONINFO ii = { 0 };
@@ -90,7 +90,7 @@ static std::vector<uchar> cvwin_IconToPng_Body(HICON hIcon)
 		return png_data;
 	}
 	CLSID clsid;
-	if (GetEncoderClsid(L"image/png", &clsid) < 0)
+	if (GetEncoderClsid(format, &clsid) < 0)
 	{
 		pIStream->Release();
 		return png_data;
@@ -120,12 +120,24 @@ static std::vector<uchar> cvwin_IconToPng_Body(HICON hIcon)
 	return png_data;
 }
 
+#if 0x0
+std::vector<uchar> cvwin::IconToBmp(HICON hIcon)
+{
+	Gdiplus::GdiplusStartupInput gdiplusStartupInput;
+	ULONG_PTR gdiplusToken;
+	Gdiplus::GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
+	std::vector<uchar> png_data = IconToImageFormat(hIcon, L"image/bmp");
+	Gdiplus::GdiplusShutdown(gdiplusToken);
+	return png_data;
+}
+#endif
+
 std::vector<uchar> cvwin::IconToPng(HICON hIcon)
 {
 	Gdiplus::GdiplusStartupInput gdiplusStartupInput;
 	ULONG_PTR gdiplusToken;
 	Gdiplus::GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
-	std::vector<uchar> png_data = cvwin_IconToPng_Body(hIcon);
+	std::vector<uchar> png_data = IconToImageFormat(hIcon, L"image/png");
 	Gdiplus::GdiplusShutdown(gdiplusToken);
 	return png_data;
 }
@@ -133,11 +145,11 @@ std::vector<uchar> cvwin::IconToPng(HICON hIcon)
 cv::Mat cvwin::BitmapToMat(HBITMAP hBitmap)
 {
 	std::vector<uchar> png_data = cvwin::BitmapToPng(hBitmap);
-	return cv::imdecode(cv::Mat(png_data), 1);
+	return cv::imdecode(cv::Mat(png_data), cv::IMREAD_UNCHANGED);
 }
 
 cv::Mat cvwin::IconToMat(HICON hIcon)
 {
 	std::vector<uchar> png_data = cvwin::IconToPng(hIcon);
-	return cv::imdecode(cv::Mat(png_data), 1);
+	return cv::imdecode(cv::Mat(png_data), cv::IMREAD_UNCHANGED);
 }

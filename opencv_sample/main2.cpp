@@ -34,6 +34,8 @@ int main(void)
 
 	DestroyIcon(hIcon);
 
+	cv::imwrite("b.png", img);
+
 	// Œ‹‰Ê‰æ‘œ•\Ž¦
 	cv::namedWindow("Image", CV_WINDOW_AUTOSIZE | CV_WINDOW_FREERATIO);
 	cv::imshow("Image", img);
