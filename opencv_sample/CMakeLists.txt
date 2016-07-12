@@ -12,7 +12,7 @@ set(CMAKE_CXX_FLAGS_DEBUG   "/MT /wd4819")
 
 # 実行ファイル名とソース指定
 add_executable(main1 main1.cpp)
-add_executable(main2 main2.cpp cvwin.cpp cvwin.h)
+add_executable(main2 main2.cpp cvwin.cpp cvwin.hpp)
 
 #
 #set(OpenCV_STATIC ON)

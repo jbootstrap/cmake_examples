@@ -4,8 +4,7 @@
 #include <windows.h>
 #include <atlimage.h>
 
-#include "cvwin.h"
-using namespace cvwin;
+#include "cvwin.hpp"
 
 int main(void)
 {

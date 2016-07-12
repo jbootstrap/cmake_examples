@@ -1,7 +1,8 @@
-#include "cvwin.h"
+#include "cvwin.hpp"
 
 #include <opencv2/opencv.hpp>
 #include <opencv2/core/core.hpp>
+#include <vector>
 #include <windows.h>
 #include <atlimage.h>
 
