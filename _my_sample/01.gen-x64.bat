@@ -11,23 +11,13 @@ cd /d %SCRIPT_CURRENT_DIR%
 rmdir /s /q cmake_vc2013
 mkdir cmake_vc2013
 cd cmake_vc2013
-cmake -G "Visual Studio 12 2013" -DCMAKE_CXX_FLAGS_RELEASE="/MT" -DCMAKE_CXX_FLAGS_DEBUG="/MTd" ^
-                                 ..\src
+cmake -G "Visual Studio 12 2013 Win64" -DCMAKE_CXX_FLAGS_RELEASE="/MT" -DCMAKE_CXX_FLAGS_DEBUG="/MTd" ^
+                                 -DBOOST_LIBRARYDIR=C:\usr\local\boost_1_61_0\lib32-msvc-12.0 ^
+                                 ..
+
 cmake --build . --config Release
-rem cmake --build . --config Debug
 
 ctest -C Release -V
-rem ctest -C Debug -V
-
-:SUCCESS
-echo 正常に終了しました。
-goto END
-
-:ERR
-echo エラーが発生しました。
-goto END
-
-:END
 
 ENDLOCAL
 

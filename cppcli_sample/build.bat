@@ -11,8 +11,7 @@ cd /d %SCRIPT_CURRENT_DIR%
 rmdir /s /q cmake_32bit
 mkdir cmake_32bit
 cd cmake_32bit
-cmake -G "Visual Studio 14 2015" -DCMAKE_CXX_FLAGS_RELEASE="/MT" -DCMAKE_CXX_FLAGS_DEBUG="/MTd" ^
-                                 -DBOOST_LIBRARYDIR=E:\local\boost_1_61_0\lib32-msvc-14.0 ^
+cmake -G "Visual Studio 14 2015" -DCMAKE_CXX_FLAGS_RELEASE="/MD /clr /EHa" -DCMAKE_CXX_FLAGS_DEBUG="/MDd /clr /EHa" ^
                                  ..
 
 cmake --build . --config Release

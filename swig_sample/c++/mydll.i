@@ -1,17 +1,16 @@
 /* http://web.mit.edu/svn/src/swig-1.3.25/Examples/java/class/index.html */
 %module mydll
 
-%include "std_wstring.i"
-%include "std_string_as_array.i"
-%include "vector_bytearray.h"
+%include <std_wstring.i>
+%include "swig_string_array.i"
+%include "swig_java_arrays.h"
 
 %{
-//#include "vector_bytearray.h"
 #include "ResultClass.h"
 #include "SwigClass.h"
 %}
 
-%include "vector.i"
+%include "swig_vector.i"
 //%template(ByteVector) std::vector<signed char>;
 //%template(CharVector) std::vector<char>;
 //%template(IntVector) std::vector<int>;

@@ -7,9 +7,6 @@ package swigtest1;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 ////import swigtest1.generated.InteVector;
 import swigtest1.generated.SwigClass;
 import swigtest1.generated.mydll;
